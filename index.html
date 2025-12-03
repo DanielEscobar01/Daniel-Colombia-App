@@ -7,188 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Harmonia+Sans+Pro:wght@400;600;700&display=swap" rel="stylesheet">
-    <style>
-      /* Pampers official color scheme */
-      :root {
-        --pampers-teal: #00A3A3;
-        --pampers-yellow: #FFD406;
-        --pampers-white: #ffffff;
-        --pampers-text: #2d3748;
-        --pampers-light-gray: #f9f9f9;
-      }
-
-      /* Page layout styles */
-      body {
-        font-family: 'Harmonia Sans Pro', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        margin: 0;
-        padding: 20px;
-        background: linear-gradient(135deg, var(--pampers-teal) 0%, rgba(0, 163, 163, 0.8) 50%, var(--pampers-yellow) 100%);
-        min-height: 100vh;
-        color: var(--pampers-text);
-      }
-
-      .container {
-        max-width: 700px;
-        margin: 0 auto;
-        background: var(--pampers-white);
-        padding: 40px;
-        border-radius: 16px;
-        box-shadow: 0 12px 32px rgba(0, 163, 163, 0.25);
-      }
-
-      h1 {
-        text-align: center;
-        color: var(--pampers-teal);
-        font-size: 2.2rem;
-        margin: 0 0 8px 0;
-        font-weight: 700;
-      }
-
-      .hint {
-        text-align: center;
-        color: #718096;
-        font-size: 0.95rem;
-        margin: 0 0 24px 0;
-      }
-
-      label {
-        display: block;
-        margin-top: 16px;
-        font-weight: 600;
-        color: var(--pampers-text);
-        font-size: 0.95rem;
-      }
-
-      input[type="text"],
-      select {
-        width: 100%;
-        padding: 12px 14px;
-        margin-top: 8px;
-        border: 2px solid var(--pampers-teal);
-        border-radius: 10px;
-        font-size: 0.95rem;
-        background: var(--pampers-light-gray);
-        color: var(--pampers-text);
-        transition: all 0.2s ease;
-        box-sizing: border-box;
-      }
-
-      input[type="text"]:focus,
-      select:focus {
-        outline: none;
-        border-color: var(--pampers-teal);
-        background: white;
-        box-shadow: 0 0 0 3px rgba(0, 163, 163, 0.1);
-      }
-
-      .button-group {
-        display: flex;
-        gap: 12px;
-        margin-top: 20px;
-      }
-
-      button {
-        flex: 1;
-        padding: 12px 16px;
-        border: none;
-        border-radius: 10px;
-        cursor: pointer;
-        font-weight: 600;
-        font-size: 0.95rem;
-        transition: all 0.2s ease;
-      }
-
-      .btn-generate {
-        background: linear-gradient(135deg, var(--pampers-teal), #008585);
-        color: white;
-      }
-
-      .btn-generate:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 8px 16px rgba(0, 163, 163, 0.4);
-      }
-
-      .btn-submit {
-        background: linear-gradient(135deg, var(--pampers-teal), #008585);
-        color: white;
-        width: 100%;
-        margin-top: 12px;
-      }
-
-      .btn-submit:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 8px 16px rgba(0, 163, 163, 0.4);
-      }
-
-      .row {
-        display: flex;
-        gap: 12px;
-      }
-
-      .col {
-        flex: 1;
-      }
-
-      .summary {
-        margin-top: 24px;
-        padding: 20px;
-        background: linear-gradient(135deg, rgba(0, 163, 163, 0.1), rgba(255, 212, 6, 0.1));
-        border-left: 4px solid var(--pampers-teal);
-        border-radius: 10px;
-      }
-
-      .btn-baby {
-        background: linear-gradient(135deg, var(--pampers-yellow), #ffc800);
-        color: var(--pampers-teal);
-        padding: 12px 16px;
-        border: none;
-        border-radius: 10px;
-        cursor: pointer;
-        font-weight: 700;
-        font-size: 0.95rem;
-        transition: all 0.2s ease;
-      }
-
-      .btn-baby:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 8px 16px rgba(255, 212, 6, 0.4);
-      }
-
-      .baby-name-display {
-        margin-top: 32px;
-        padding: 32px;
-        background: linear-gradient(135deg, var(--pampers-yellow), rgba(255, 212, 6, 0.8));
-        border-radius: 12px;
-        border: 3px solid var(--pampers-teal);
-        text-align: center;
-        animation: slideIn 0.4s ease;
-      }
-
-      @keyframes slideIn {
-        from {
-          opacity: 0;
-          transform: translateY(20px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-
-      .baby-name-label {
-        font-weight: 600;
-        color: var(--pampers-teal);
-        margin-bottom: 12px;
-        font-size: 1rem;
-      }
-
-      .baby-name-content {
-        font-size: 3rem;
-        font-weight: 700;
-        color: var(--pampers-teal);
-        letter-spacing: 2px;
-      }
-    </style>
+    <link rel="stylesheet" href="styles.css">
   </head>
   <body>
     <div class="container">
@@ -226,9 +45,15 @@
       </div>
 
       <div style="text-align: center; margin-top: 24px;">
-        <button type="button" class="btn-baby" onclick="generateBabyName(document.getElementById('userCountry').value, document.getElementById('partnerCountry').value)">
+        <button type="button" class="btn-baby" id="generateBtn" onclick="generateBabyName(document.getElementById('userCountry').value, document.getElementById('partnerCountry').value)">
           👶 Generate Baby Name
         </button>
+      </div>
+
+      <!-- Loading spinner container -->
+      <div id="loadingContainer" class="loading-container">
+        <div class="spinner"></div>
+        <div class="loading-text">Calculando nombre del bebé...</div>
       </div>
 
       <!-- Area to display baby name prominently -->

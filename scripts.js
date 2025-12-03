@@ -25,6 +25,12 @@ async function generateBabyName(parentCountry1, parentCountry2) {
       return;
     }
     
+    // Show loading spinner and disable button
+    const loadingContainer = document.getElementById('loadingContainer');
+    const generateBtn = document.getElementById('generateBtn');
+    loadingContainer.classList.add('active');
+    generateBtn.disabled = true;
+    
     // Build the API URL with both parent nationalities as comma-separated list
     // Use CORS proxy to allow API calls from GitHub Pages and other hosted domains
     const randomUserApi = `https://randomuser.me/api/?inc=name&nat=${parentCountry1.toLowerCase()},${parentCountry2.toLowerCase()}`;
@@ -38,6 +44,10 @@ async function generateBabyName(parentCountry1, parentCountry2) {
     const user = data.results[0];
     const babyFirstName = user.name.first;
     
+    // Hide loading spinner
+    loadingContainer.classList.remove('active');
+    generateBtn.disabled = false;
+    
     // Display the baby name
     displayBabyName(babyFirstName);
     
@@ -45,6 +55,12 @@ async function generateBabyName(parentCountry1, parentCountry2) {
     
     return babyFirstName;
   } catch (error) {
+    // Hide loading spinner on error
+    const loadingContainer = document.getElementById('loadingContainer');
+    const generateBtn = document.getElementById('generateBtn');
+    loadingContainer.classList.remove('active');
+    generateBtn.disabled = false;
+    
     console.error('Error generating baby name:', error);
     alert('Failed to generate baby name. Please try again.');
   }
