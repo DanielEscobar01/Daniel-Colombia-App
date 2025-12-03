@@ -1,143 +1,62 @@
 <!doctype html>
-<html lang="es">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Hola Mundo desde Colombia</title>
-  <style>
-    :root{
-      --bg: linear-gradient(135deg,#fffaf0,#ffe8cc);
-      --accent: #f25c05; /* naranja cálido */
-      --text: #1b1b1b;
-      --card: rgba(255,255,255,0.8);
-      --shadow: 0 8px 24px rgba(0,0,0,0.08);
-    }
-    html,body{
-      height:100%;
-      margin:0;
-      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-      background: var(--bg);
-      color:var(--text);
-      -webkit-font-smoothing:antialiased;
-      -moz-osx-font-smoothing:grayscale;
-    }
-    .wrap{
-      min-height:100%;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding:2rem;
-    }
-    .card{
-      background:var(--card);
-      padding:2.25rem;
-      border-radius:14px;
-      box-shadow:var(--shadow);
-      text-align:center;
-      max-width:720px;
-      width:100%;
-      backdrop-filter: blur(6px);
-      border: 1px solid rgba(0,0,0,0.04);
-    }
-    h1{
-      margin:0 0 .5rem 0;
-      font-size:clamp(1.6rem, 3.5vw, 2.6rem);
-      letter-spacing: -0.02em;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      gap:.6rem;
-    }
-    p.lead{
-      margin:0 0 1.25rem 0;
-      color:#333;
-      font-size:1.05rem;
-    }
-    .flag {
-      width:56px;
-      height:36px;
-      border-radius:6px;
-      overflow:hidden;
-      box-shadow:0 4px 12px rgba(0,0,0,0.08);
-      border:1px solid rgba(0,0,0,0.06);
-      display:inline-block;
-      flex:0 0 auto;
-    }
-    .flag svg{ width:100%; height:100%; display:block; }
-    footer{
-      margin-top:1.25rem;
-      font-size:.88rem;
-      color:#555;
-    }
-    .btn{
-      display:inline-block;
-      margin-top:1rem;
-      padding:.55rem .9rem;
-      background:var(--accent);
-      color:#fff;
-      border-radius:10px;
-      text-decoration:none;
-      font-weight:600;
-      box-shadow:0 6px 18px rgba(242,92,5,0.18);
-    }
-    @media (prefers-color-scheme: dark){
-      :root{ --bg: linear-gradient(135deg,#0f1720,#081016); --card: rgba(8,11,14,0.6); --text:#e6eef6; }
-      .lead{ color:#cbd5e1; }
-      footer{ color:#9fb1c7; }
-    }
-  </style>
-</head>
-<body>
-  <div class="wrap">
-    <div class="card" role="main" aria-labelledby="main-title">
-      <h1 id="main-title">
-        <span class="flag" aria-hidden="true">
-          <!-- Simple Colombian flag (SVG) -->
-          <svg viewBox="0 0 3 2" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
-            <rect width="3" height="1" y="0" fill="#fde910"/>
-            <rect width="3" height="0.5" y="1" fill="#0033a0"/>
-            <rect width="3" height="0.5" y="1.5" fill="#ce1126"/>
-          </svg>
-        </span>
-        Hola mundo
-      </h1>
-      <p class="lead">Desde Colombia para el mundo 🇨🇴 — ¡Bienvenidos!</p>
-      <a class="btn" href="#" onclick="copyMessage(event)">Copiar mensaje</a>
-      <footer>
-        Abre este archivo en tu navegador para ver la página. Diseñado para ser pequeño, accesible y fácil de compartir.
-      </footer>
-    </div>
-  </div>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Partner Info Form</title>
+    <style>
+      /* Basic page layout styles */
+      body { font-family: Arial, sans-serif; margin: 24px; background:#f7f9fc; color:#0b2545 }
+      .container { max-width:700px; margin:0 auto; background:white; padding:20px; border-radius:8px; box-shadow:0 6px 18px rgba(11,37,69,0.08)}
+      label { display:block; margin-top:12px; font-weight:600 }
+      input[type="text"], select { width:100%; padding:8px 10px; margin-top:6px; border:1px solid #d6dde8; border-radius:6px; font-size:15px }
+      button { margin-top:14px; padding:10px 16px; background:#0b67ff; color:white; border:none; border-radius:6px; cursor:pointer }
+      button:active { transform:translateY(1px) }
+      .summary { margin-top:18px; padding:12px; background:#f1f6ff; border-radius:6px }
+      .row { display:flex; gap:12px }
+      .col { flex:1 }
+      small.hint { color:#546e7a }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Partner Info Form</h1>
+      <p class="hint">Please enter your name and your partner's name, and select each nationality.</p>
 
-  <script>
-    function copyMessage(e){
-      e.preventDefault();
-      const text = "Hola mundo desde Colombia para el mundo 🇨🇴";
-      if (navigator.clipboard && navigator.clipboard.writeText){
-        navigator.clipboard.writeText(text).then(()=>{
-          alert("Mensaje copiado: " + text);
-        }).catch(()=> {
-          fallbackCopy(text);
-        });
-      } else {
-        fallbackCopy(text);
-      }
-      function fallbackCopy(t){
-        const ta = document.createElement('textarea');
-        ta.value = t;
-        ta.style.position = 'fixed';
-        ta.style.left = '-9999px';
-        document.body.appendChild(ta);
-        ta.select();
-        try {
-          document.execCommand('copy');
-          alert("Mensaje copiado: " + t);
-        } catch(err){
-          alert("No se pudo copiar automáticamente. Por favor selecciona y copia manualmente:\n\n" + t);
-        }
-        document.body.removeChild(ta);
-      }
-    }
-  </script>
-</body>
+      <!-- Main form: collects two names and two nationalities -->
+      <form id="partnerForm">
+        <!-- User name -->
+        <label for="userName">Your name</label>
+        <input type="text" id="userName" name="userName" placeholder="Enter your name" required />
+
+        <!-- Partner name -->
+        <label for="partnerName">Partner's name</label>
+        <input type="text" id="partnerName" name="partnerName" placeholder="Enter your partner's name" required />
+
+        <div class="row">
+          <div class="col">
+            <!-- User nationality select -->
+            <label for="userCountry">Your nationality</label>
+            <select id="userCountry" name="userCountry" required>
+              <option value="">Select country...</option>
+            </select>
+          </div>
+          <div class="col">
+            <!-- Partner nationality select -->
+            <label for="partnerCountry">Partner's nationality</label>
+            <select id="partnerCountry" name="partnerCountry" required>
+              <option value="">Select country...</option>
+            </select>
+          </div>
+        </div>
+
+        <button type="submit">Submit</button>
+      </form>
+
+      <!-- Area to show submitted information -->
+      <div id="result" class="summary" aria-live="polite" style="display:none"></div>
+    </div>
+
+    <script src="scripts.js"></script>
+  </body>
 </html>
