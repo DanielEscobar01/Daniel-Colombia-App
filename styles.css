@@ -1,4 +1,38 @@
-/* Pampers official color scheme */
+/* Pampers official color scheme - Complementary styles for Bootstrap */
+:root {
+  --primary-teal: #00A3A3;
+  --primary-yellow: #FFD406;
+  --text-dark: #2d3748;
+  --bg-light: #f5f7fa;
+}
+
+/* Utility classes for custom styling */
+.text-teal {
+  color: var(--primary-teal) !important;
+}
+
+.bg-gradient-teal {
+  background: linear-gradient(135deg, #00A3A3 0%, #008080 100%) !important;
+}
+
+.btn-gradient-yellow {
+  background: linear-gradient(135deg, #FFD406 0%, #FFC400 100%) !important;
+  color: var(--text-dark) !important;
+  border: none !important;
+}
+
+.btn-gradient-yellow:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 212, 6, 0.4) !important;
+}
+
+.border-teal {
+  border-color: var(--primary-teal) !important;
+}
+
+.fw-600 {
+  font-weight: 600 !important;
+}
 :root {
   --pampers-teal: #00A3A3;
   --pampers-yellow: #FFD406;

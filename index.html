@@ -1,65 +1,277 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Partner Info Form</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Harmonia+Sans+Pro:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
-  </head>
-  <body>
-    <div class="container">
-      <h1>Partner Info Form</h1>
-      <p class="hint">Generate random names or enter them manually, then select nationalities.</p>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>👶 Baby Name Generator</title>
+  <!-- Bootstrap 5 CSS CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Google Fonts: Harmonia Sans Pro -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Harmonia+Sans+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+  <!-- Custom styles -->
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* Bootstrap custom theme variables */
+    :root {
+      --bs-body-font-family: 'Harmonia Sans Pro', sans-serif;
+      --primary-teal: #00A3A3;
+      --primary-yellow: #FFD406;
+      --text-dark: #2d3748;
+    }
 
-      <!-- Main form: collects two names and two nationalities -->
-      <form id="partnerForm">
-        <!-- User name -->
-        <label for="userName">Your name</label>
-        <input type="text" id="userName" name="userName" placeholder="Enter your name" required />
+    body {
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      font-family: 'Harmonia Sans Pro', sans-serif;
+    }
 
-        <!-- Partner name -->
-        <label for="partnerName">Partner's name</label>
-        <input type="text" id="partnerName" name="partnerName" placeholder="Enter your partner's name" required />
+    .card {
+      border-radius: 20px !important;
+      box-shadow: 0 10px 40px rgba(0, 163, 163, 0.15) !important;
+    }
 
-        <div class="row">
-          <div class="col">
-            <!-- User nationality select -->
-            <label for="userCountry">Your nationality</label>
-            <select id="userCountry" name="userCountry" required>
-              <option value="">Select country...</option>
-            </select>
+    .card-header {
+      background: linear-gradient(135deg, #00A3A3 0%, #008080 100%) !important;
+      border-radius: 20px 20px 0 0 !important;
+      padding: 3rem 1.5rem !important;
+    }
+
+    .card-header h1 {
+      font-weight: 700;
+      letter-spacing: -1px;
+      margin: 0;
+    }
+
+    .form-control, .form-select {
+      border-color: #e0e0e0 !important;
+      border-radius: 12px !important;
+      font-size: 1.05rem;
+      padding: 0.75rem 1rem !important;
+      transition: all 0.3s ease;
+    }
+
+    .form-control:focus, .form-select:focus {
+      border-color: var(--primary-teal) !important;
+      box-shadow: 0 0 0 0.2rem rgba(0, 163, 163, 0.25) !important;
+    }
+
+    .form-label {
+      font-weight: 600;
+      color: var(--text-dark);
+      margin-bottom: 0.5rem;
+    }
+
+    .btn-generate {
+      background: linear-gradient(135deg, #FFD406 0%, #FFC400 100%) !important;
+      color: var(--text-dark) !important;
+      border: none !important;
+      border-radius: 12px !important;
+      font-weight: 700;
+      padding: 0.85rem 2.5rem !important;
+      font-size: 1.1rem;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(255, 212, 6, 0.3);
+    }
+
+    .btn-generate:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(255, 212, 6, 0.4);
+    }
+
+    .btn-generate:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+    }
+
+    /* Loading spinner and progress bar */
+    #loadingContainer {
+      display: none;
+      text-align: center;
+      margin-top: 2rem;
+      padding: 2rem;
+    }
+
+    #loadingContainer.active {
+      display: block;
+    }
+
+    .spinner-border {
+      width: 4rem !important;
+      height: 4rem !important;
+      border-width: 0.35em !important;
+      color: var(--primary-teal) !important;
+    }
+
+    .loading-text {
+      margin-top: 1.5rem;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--text-dark);
+      animation: fadeInOut 1.5s infinite;
+    }
+
+    @keyframes fadeInOut {
+      0%, 100% { opacity: 0.6; }
+      50% { opacity: 1; }
+    }
+
+    .progress {
+      height: 0.5rem;
+      border-radius: 10px;
+      margin-top: 1.5rem;
+      background-color: #e0e0e0;
+    }
+
+    .progress-bar {
+      background: linear-gradient(90deg, var(--primary-teal), var(--primary-yellow)) !important;
+    }
+
+    /* Baby name display card */
+    #babyNameContainer {
+      display: none;
+      margin-top: 2rem;
+      padding: 2.5rem;
+      background: linear-gradient(135deg, #FFD406 0%, #FFC400 100%);
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(255, 212, 6, 0.3);
+      text-align: center;
+      animation: slideIn 0.5s ease-out;
+    }
+
+    #babyNameContainer.active {
+      display: block;
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .baby-name-label {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: rgba(45, 55, 72, 0.7);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 1rem;
+    }
+
+    #babyNameContent {
+      font-size: 3.5rem;
+      font-weight: 700;
+      color: var(--text-dark);
+      letter-spacing: -2px;
+      margin: 0;
+    }
+
+    .spinner-lg {
+      --bs-spinner-width: 4rem;
+      --bs-spinner-height: 4rem;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .card-header h1 {
+        font-size: 1.75rem;
+      }
+
+      #babyNameContent {
+        font-size: 2.5rem;
+      }
+
+      .card-body {
+        padding: 1.5rem !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container" style="max-width: 600px;">
+    <!-- Main Card -->
+    <div class="card border-0">
+      <!-- Header with gradient -->
+      <div class="card-header text-white text-center">
+        <h1 class="display-5">👶 Baby Name Generator</h1>
+        <p class="mt-2 mb-0 fs-6 fw-normal" style="opacity: 0.95;">Discover your baby's perfect name based on your heritage</p>
+      </div>
+
+      <!-- Card Body: Form -->
+      <div class="card-body p-5">
+        <form id="partnerForm">
+          <!-- User Name Input -->
+          <div class="mb-4">
+            <label for="userName" class="form-label">Your Name</label>
+            <input type="text" class="form-control form-control-lg" id="userName" name="userName" placeholder="Enter your name" required>
           </div>
-          <div class="col">
-            <!-- Partner nationality select -->
-            <label for="partnerCountry">Partner's nationality</label>
-            <select id="partnerCountry" name="partnerCountry" required>
-              <option value="">Select country...</option>
-            </select>
+
+          <!-- Partner Name Input -->
+          <div class="mb-4">
+            <label for="partnerName" class="form-label">Partner's Name</label>
+            <input type="text" class="form-control form-control-lg" id="partnerName" name="partnerName" placeholder="Enter your partner's name" required>
           </div>
+
+          <!-- Country Selects Row -->
+          <div class="row g-3 mb-4">
+            <div class="col-md-6">
+              <label for="userCountry" class="form-label">Your Nationality</label>
+              <select id="userCountry" name="userCountry" class="form-select form-select-lg" required>
+                <option value="">Select country...</option>
+              </select>
+            </div>
+            <div class="col-md-6">
+              <label for="partnerCountry" class="form-label">Partner's Nationality</label>
+              <select id="partnerCountry" name="partnerCountry" class="form-select form-select-lg" required>
+                <option value="">Select country...</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Generate Button -->
+          <div class="d-grid gap-2 mb-4">
+            <button type="button" class="btn btn-lg btn-generate" id="generateBtn" onclick="generateBabyName(document.getElementById('userCountry').value, document.getElementById('partnerCountry').value)">
+              ✨ Generate Baby Name ✨
+            </button>
+          </div>
+        </form>
+
+        <!-- Loading Spinner Container -->
+        <div id="loadingContainer" class="text-center">
+          <div class="spinner-border spinner-lg text-teal" role="status">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+          <div class="progress" style="height: 6px; margin-top: 1.5rem; border-radius: 10px;">
+            <div class="progress-bar progress-bar-animated" role="progressbar" style="width: 100%; background: linear-gradient(90deg, #00A3A3, #FFD406);"></div>
+          </div>
+          <div class="loading-text">Calculating your baby's name...</div>
         </div>
-
-        <!-- Button to generate baby name -->
       </div>
+    </div>
 
-      <div style="text-align: center; margin-top: 24px;">
-        <button type="button" class="btn-baby" id="generateBtn" onclick="generateBabyName(document.getElementById('userCountry').value, document.getElementById('partnerCountry').value)">
-          👶 Generate Baby Name
-        </button>
-      </div>
+    <!-- Baby Name Display Card (outside main card) -->
+    <div id="babyNameContainer" class="mt-4">
+      <div class="baby-name-label">🎉 Your Baby's Name</div>
+      <div id="babyNameContent"></div>
+    </div>
+  </div>
 
-      <!-- Loading spinner container -->
-      <div id="loadingContainer" class="loading-container">
-        <div class="spinner"></div>
-        <div class="loading-text">Calculando nombre del bebé...</div>
-      </div>
-
-      <!-- Area to display baby name prominently -->
-      <div id="babyNameContainer" class="baby-name-display" style="display:none">
-        <div class="baby-name-label">Your Baby's Name:</div>
-        <div id="babyNameContent" class="baby-name-content"></div>
+  <!-- Bootstrap 5 JS Bundle (includes Popper) -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- Link to external scripts -->
+  <script src="scripts.js"></script>
+</body>
+</html>
       </div>
     </div>
 
