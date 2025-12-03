@@ -4,23 +4,25 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Partner Info Form</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Harmonia+Sans+Pro:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-      /* Pampers-inspired color scheme: soft blues, pinks, and pastels */
+      /* Pampers official color scheme */
       :root {
-        --pampers-blue: #a8d5f7;
-        --pampers-pink: #f4d4e6;
-        --pampers-yellow: #fef3c7;
-        --pampers-white: #fafbfc;
+        --pampers-teal: #00A3A3;
+        --pampers-yellow: #FFD406;
+        --pampers-white: #ffffff;
         --pampers-text: #2d3748;
-        --pampers-accent: #6fa8dc;
+        --pampers-light-gray: #f9f9f9;
       }
 
       /* Page layout styles */
       body {
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        font-family: 'Harmonia Sans Pro', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         margin: 0;
         padding: 20px;
-        background: linear-gradient(135deg, var(--pampers-blue) 0%, var(--pampers-pink) 50%, var(--pampers-yellow) 100%);
+        background: linear-gradient(135deg, var(--pampers-teal) 0%, rgba(0, 163, 163, 0.8) 50%, var(--pampers-yellow) 100%);
         min-height: 100vh;
         color: var(--pampers-text);
       }
@@ -31,12 +33,12 @@
         background: var(--pampers-white);
         padding: 40px;
         border-radius: 16px;
-        box-shadow: 0 12px 32px rgba(111, 168, 220, 0.2);
+        box-shadow: 0 12px 32px rgba(0, 163, 163, 0.25);
       }
 
       h1 {
         text-align: center;
-        color: var(--pampers-accent);
+        color: var(--pampers-teal);
         font-size: 2.2rem;
         margin: 0 0 8px 0;
         font-weight: 700;
@@ -62,10 +64,10 @@
         width: 100%;
         padding: 12px 14px;
         margin-top: 8px;
-        border: 2px solid var(--pampers-blue);
+        border: 2px solid var(--pampers-teal);
         border-radius: 10px;
         font-size: 0.95rem;
-        background: #f9f9f9;
+        background: var(--pampers-light-gray);
         color: var(--pampers-text);
         transition: all 0.2s ease;
         box-sizing: border-box;
@@ -74,9 +76,9 @@
       input[type="text"]:focus,
       select:focus {
         outline: none;
-        border-color: var(--pampers-accent);
+        border-color: var(--pampers-teal);
         background: white;
-        box-shadow: 0 0 0 3px rgba(111, 168, 220, 0.1);
+        box-shadow: 0 0 0 3px rgba(0, 163, 163, 0.1);
       }
 
       .button-group {
@@ -97,17 +99,17 @@
       }
 
       .btn-generate {
-        background: linear-gradient(135deg, var(--pampers-pink), #f0b8d8);
+        background: linear-gradient(135deg, var(--pampers-teal), #008585);
         color: white;
       }
 
       .btn-generate:hover {
         transform: translateY(-2px);
-        box-shadow: 0 8px 16px rgba(244, 212, 230, 0.4);
+        box-shadow: 0 8px 16px rgba(0, 163, 163, 0.4);
       }
 
       .btn-submit {
-        background: linear-gradient(135deg, var(--pampers-accent), #5a96c4);
+        background: linear-gradient(135deg, var(--pampers-teal), #008585);
         color: white;
         width: 100%;
         margin-top: 12px;
@@ -115,7 +117,7 @@
 
       .btn-submit:hover {
         transform: translateY(-2px);
-        box-shadow: 0 8px 16px rgba(111, 168, 220, 0.4);
+        box-shadow: 0 8px 16px rgba(0, 163, 163, 0.4);
       }
 
       .row {
@@ -130,34 +132,61 @@
       .summary {
         margin-top: 24px;
         padding: 20px;
-        background: linear-gradient(135deg, rgba(168, 213, 247, 0.15), rgba(244, 212, 230, 0.15));
-        border-left: 4px solid var(--pampers-accent);
+        background: linear-gradient(135deg, rgba(0, 163, 163, 0.1), rgba(255, 212, 6, 0.1));
+        border-left: 4px solid var(--pampers-teal);
         border-radius: 10px;
       }
 
-      .api-response {
-        margin-top: 24px;
-        padding: 16px;
-        background: var(--pampers-yellow);
+      .btn-baby {
+        background: linear-gradient(135deg, var(--pampers-yellow), #ffc800);
+        color: var(--pampers-teal);
+        padding: 12px 16px;
+        border: none;
         border-radius: 10px;
-        border: 2px solid #fcd34d;
-        max-height: 300px;
-        overflow-y: auto;
+        cursor: pointer;
+        font-weight: 700;
+        font-size: 0.95rem;
+        transition: all 0.2s ease;
       }
 
-      .api-response-label {
+      .btn-baby:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 16px rgba(255, 212, 6, 0.4);
+      }
+
+      .baby-name-display {
+        margin-top: 32px;
+        padding: 32px;
+        background: linear-gradient(135deg, var(--pampers-yellow), rgba(255, 212, 6, 0.8));
+        border-radius: 12px;
+        border: 3px solid var(--pampers-teal);
+        text-align: center;
+        animation: slideIn 0.4s ease;
+      }
+
+      @keyframes slideIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .baby-name-label {
         font-weight: 600;
-        color: var(--pampers-text);
-        margin-bottom: 8px;
-        font-size: 0.9rem;
+        color: var(--pampers-teal);
+        margin-bottom: 12px;
+        font-size: 1rem;
       }
 
-      .api-response-content {
-        font-family: 'Courier New', monospace;
-        font-size: 0.85rem;
-        color: #4a5568;
-        white-space: pre-wrap;
-        word-break: break-word;
+      .baby-name-content {
+        font-size: 3rem;
+        font-weight: 700;
+        color: var(--pampers-teal);
+        letter-spacing: 2px;
       }
     </style>
   </head>
@@ -165,13 +194,6 @@
     <div class="container">
       <h1>Partner Info Form</h1>
       <p class="hint">Generate random names or enter them manually, then select nationalities.</p>
-
-      <!-- Button to auto-generate names from Random User API -->
-      <div class="button-group">
-        <button type="button" class="btn-generate" onclick="generateBothNames()">
-          🎲 Generate Random Names
-        </button>
-      </div>
 
       <!-- Main form: collects two names and two nationalities -->
       <form id="partnerForm">
@@ -200,16 +222,19 @@
           </div>
         </div>
 
-        <button type="submit" class="btn-submit">Submit</button>
-      </form>
+        <!-- Button to generate baby name -->
+      </div>
 
-      <!-- Area to show submitted information -->
-      <div id="result" class="summary" aria-live="polite" style="display:none"></div>
+      <div style="text-align: center; margin-top: 24px;">
+        <button type="button" class="btn-baby" onclick="generateBabyName(document.getElementById('userCountry').value, document.getElementById('partnerCountry').value)">
+          👶 Generate Baby Name
+        </button>
+      </div>
 
-      <!-- Area to display API response data -->
-      <div id="apiResponseContainer" class="api-response" style="display:none">
-        <div class="api-response-label">API Response Data (Last Generation):</div>
-        <div id="apiResponseContent" class="api-response-content"></div>
+      <!-- Area to display baby name prominently -->
+      <div id="babyNameContainer" class="baby-name-display" style="display:none">
+        <div class="baby-name-label">Your Baby's Name:</div>
+        <div id="babyNameContent" class="baby-name-content"></div>
       </div>
     </div>
 
