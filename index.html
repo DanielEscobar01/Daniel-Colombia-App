@@ -5,23 +5,173 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Partner Info Form</title>
     <style>
-      /* Basic page layout styles */
-      body { font-family: Arial, sans-serif; margin: 24px; background:#f7f9fc; color:#0b2545 }
-      .container { max-width:700px; margin:0 auto; background:white; padding:20px; border-radius:8px; box-shadow:0 6px 18px rgba(11,37,69,0.08)}
-      label { display:block; margin-top:12px; font-weight:600 }
-      input[type="text"], select { width:100%; padding:8px 10px; margin-top:6px; border:1px solid #d6dde8; border-radius:6px; font-size:15px }
-      button { margin-top:14px; padding:10px 16px; background:#0b67ff; color:white; border:none; border-radius:6px; cursor:pointer }
-      button:active { transform:translateY(1px) }
-      .summary { margin-top:18px; padding:12px; background:#f1f6ff; border-radius:6px }
-      .row { display:flex; gap:12px }
-      .col { flex:1 }
-      small.hint { color:#546e7a }
+      /* Pampers-inspired color scheme: soft blues, pinks, and pastels */
+      :root {
+        --pampers-blue: #a8d5f7;
+        --pampers-pink: #f4d4e6;
+        --pampers-yellow: #fef3c7;
+        --pampers-white: #fafbfc;
+        --pampers-text: #2d3748;
+        --pampers-accent: #6fa8dc;
+      }
+
+      /* Page layout styles */
+      body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        margin: 0;
+        padding: 20px;
+        background: linear-gradient(135deg, var(--pampers-blue) 0%, var(--pampers-pink) 50%, var(--pampers-yellow) 100%);
+        min-height: 100vh;
+        color: var(--pampers-text);
+      }
+
+      .container {
+        max-width: 700px;
+        margin: 0 auto;
+        background: var(--pampers-white);
+        padding: 40px;
+        border-radius: 16px;
+        box-shadow: 0 12px 32px rgba(111, 168, 220, 0.2);
+      }
+
+      h1 {
+        text-align: center;
+        color: var(--pampers-accent);
+        font-size: 2.2rem;
+        margin: 0 0 8px 0;
+        font-weight: 700;
+      }
+
+      .hint {
+        text-align: center;
+        color: #718096;
+        font-size: 0.95rem;
+        margin: 0 0 24px 0;
+      }
+
+      label {
+        display: block;
+        margin-top: 16px;
+        font-weight: 600;
+        color: var(--pampers-text);
+        font-size: 0.95rem;
+      }
+
+      input[type="text"],
+      select {
+        width: 100%;
+        padding: 12px 14px;
+        margin-top: 8px;
+        border: 2px solid var(--pampers-blue);
+        border-radius: 10px;
+        font-size: 0.95rem;
+        background: #f9f9f9;
+        color: var(--pampers-text);
+        transition: all 0.2s ease;
+        box-sizing: border-box;
+      }
+
+      input[type="text"]:focus,
+      select:focus {
+        outline: none;
+        border-color: var(--pampers-accent);
+        background: white;
+        box-shadow: 0 0 0 3px rgba(111, 168, 220, 0.1);
+      }
+
+      .button-group {
+        display: flex;
+        gap: 12px;
+        margin-top: 20px;
+      }
+
+      button {
+        flex: 1;
+        padding: 12px 16px;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        font-weight: 600;
+        font-size: 0.95rem;
+        transition: all 0.2s ease;
+      }
+
+      .btn-generate {
+        background: linear-gradient(135deg, var(--pampers-pink), #f0b8d8);
+        color: white;
+      }
+
+      .btn-generate:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 16px rgba(244, 212, 230, 0.4);
+      }
+
+      .btn-submit {
+        background: linear-gradient(135deg, var(--pampers-accent), #5a96c4);
+        color: white;
+        width: 100%;
+        margin-top: 12px;
+      }
+
+      .btn-submit:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 16px rgba(111, 168, 220, 0.4);
+      }
+
+      .row {
+        display: flex;
+        gap: 12px;
+      }
+
+      .col {
+        flex: 1;
+      }
+
+      .summary {
+        margin-top: 24px;
+        padding: 20px;
+        background: linear-gradient(135deg, rgba(168, 213, 247, 0.15), rgba(244, 212, 230, 0.15));
+        border-left: 4px solid var(--pampers-accent);
+        border-radius: 10px;
+      }
+
+      .api-response {
+        margin-top: 24px;
+        padding: 16px;
+        background: var(--pampers-yellow);
+        border-radius: 10px;
+        border: 2px solid #fcd34d;
+        max-height: 300px;
+        overflow-y: auto;
+      }
+
+      .api-response-label {
+        font-weight: 600;
+        color: var(--pampers-text);
+        margin-bottom: 8px;
+        font-size: 0.9rem;
+      }
+
+      .api-response-content {
+        font-family: 'Courier New', monospace;
+        font-size: 0.85rem;
+        color: #4a5568;
+        white-space: pre-wrap;
+        word-break: break-word;
+      }
     </style>
   </head>
   <body>
     <div class="container">
       <h1>Partner Info Form</h1>
-      <p class="hint">Please enter your name and your partner's name, and select each nationality.</p>
+      <p class="hint">Generate random names or enter them manually, then select nationalities.</p>
+
+      <!-- Button to auto-generate names from Random User API -->
+      <div class="button-group">
+        <button type="button" class="btn-generate" onclick="generateBothNames()">
+          🎲 Generate Random Names
+        </button>
+      </div>
 
       <!-- Main form: collects two names and two nationalities -->
       <form id="partnerForm">
@@ -50,11 +200,17 @@
           </div>
         </div>
 
-        <button type="submit">Submit</button>
+        <button type="submit" class="btn-submit">Submit</button>
       </form>
 
       <!-- Area to show submitted information -->
       <div id="result" class="summary" aria-live="polite" style="display:none"></div>
+
+      <!-- Area to display API response data -->
+      <div id="apiResponseContainer" class="api-response" style="display:none">
+        <div class="api-response-label">API Response Data (Last Generation):</div>
+        <div id="apiResponseContent" class="api-response-content"></div>
+      </div>
     </div>
 
     <script src="scripts.js"></script>

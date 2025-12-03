@@ -1,5 +1,23 @@
 // All comments and text are in English as requested.
 
+// Function to display the API response in the designated container
+function displayApiResponse(data) {
+  const container = document.getElementById('apiResponseContainer');
+  const content = document.getElementById('apiResponseContent');
+  
+  if (container && content) {
+    // Format the API response as readable JSON
+    const formattedJson = JSON.stringify(data, null, 2);
+    content.textContent = formattedJson;
+    container.style.display = 'block';
+    
+    // Optional: scroll to the API response
+    setTimeout(() => {
+      container.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }, 300);
+  }
+}
+
 // Function to fetch a random user from the Random User Generator API
 // and populate the user name field, respecting the selected nationality
 async function fetchRandomUser(targetFieldId, countryCode) {
@@ -26,6 +44,11 @@ async function fetchRandomUser(targetFieldId, countryCode) {
       // Log to console for debugging
       console.log(`Generated name for ${targetFieldId} (${countryCode}): ${fullName}`);
     }
+
+    // Display the API response in the response container
+    displayApiResponse(data);
+    
+    return user;
   } catch (error) {
     // Log any errors that occur during the API fetch
     console.error('Error fetching random user:', error);
