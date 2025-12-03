@@ -1,11 +1,18 @@
 // All comments and text are in English as requested.
 
-// Function to display the baby name in the designated container
-function displayBabyName(babyFirstName) {
+// Function to display the baby name and photo in the designated container
+function displayBabyName(babyFirstName, babyPhotoUrl) {
   const container = document.getElementById('babyNameContainer');
   const content = document.getElementById('babyNameContent');
+  const photoContainer = document.getElementById('babyPhotoContainer');
   
   if (container && content) {
+    // Display photo if available
+    if (babyPhotoUrl && photoContainer) {
+      photoContainer.innerHTML = `<img src="${babyPhotoUrl}" alt="${babyFirstName}" class="baby-photo">`;
+      photoContainer.style.display = 'block';
+    }
+    
     content.textContent = babyFirstName;
     container.style.display = 'block';
     
@@ -40,16 +47,17 @@ async function generateBabyName(parentCountry1, parentCountry2) {
     const response = await fetch(corsProxyUrl);
     const data = await response.json();
     
-    // Extract the first name only
+    // Extract the first name and photo URL
     const user = data.results[0];
     const babyFirstName = user.name.first;
+    const babyPhotoUrl = user.picture.large;
     
     // Hide loading spinner
     loadingContainer.classList.remove('active');
     generateBtn.disabled = false;
     
-    // Display the baby name
-    displayBabyName(babyFirstName);
+    // Display the baby name and photo
+    displayBabyName(babyFirstName, babyPhotoUrl);
     
     console.log(`Generated baby name: ${babyFirstName} (from ${parentCountry1} or ${parentCountry2})`);
     
